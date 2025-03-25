@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "cd backend && pip install -r requirements.txt"
+buildCommand = "python -m pip install --upgrade pip && cd backend && pip install -r requirements.txt"
 
 [deploy]
 startCommand = "cd backend && gunicorn app:create_app()"
@@ -11,4 +11,5 @@ restartPolicyMaxRetries = 3
 
 [deploy.env]
 FLASK_ENV = "production"
-PYTHONUNBUFFERED = "1" 
+PYTHONUNBUFFERED = "1"
+PYTHON_VERSION = "3.9" 
