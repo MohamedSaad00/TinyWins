@@ -5,7 +5,7 @@ buildCommand = "apt-get update && apt-get install -y python3-pip && python3 -m p
 [deploy]
 startCommand = "cd backend && gunicorn app:create_app()"
 healthcheckPath = "/api/health"
-healthcheckTimeout = 100
+healthcheckTimeout = 300
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 

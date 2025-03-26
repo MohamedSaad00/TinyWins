@@ -1,1 +1,1 @@
-web: cd backend && python3 -m gunicorn app:create_app()
+web: cd backend && python3 -m gunicorn --bind 0.0.0.0:$PORT app:create_app()
