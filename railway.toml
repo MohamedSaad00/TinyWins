@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "apt-get update && apt-get install -y python3-pip && python3 -m pip install --upgrade pip && cd backend && python3 -m pip install -r requirements.txt"
+buildCommand = "apt-get update && apt-get install -y python3-pip && python3 -m pip install --upgrade pip && cd backend && python3 -m pip install -r requirements.txt && chmod +x start.sh"
 
 [deploy]
-startCommand = "cd backend && export PATH=$PATH:/usr/local/bin && /usr/local/bin/gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:create_app()"
+startCommand = "./backend/start.sh"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 600
 restartPolicyType = "on_failure"
