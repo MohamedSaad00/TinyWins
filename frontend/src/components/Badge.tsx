@@ -7,6 +7,15 @@ interface BadgeProps {
   onClick?: () => void;
 }
 
+const formatDate = (dateString: string | undefined): string => {
+  if (!dateString) return '';
+  try {
+    return new Date(dateString).toLocaleDateString();
+  } catch (error) {
+    return '';
+  }
+};
+
 const Badge: React.FC<BadgeProps> = ({ badge, onClick }) => {
   return (
     <Paper
@@ -26,7 +35,7 @@ const Badge: React.FC<BadgeProps> = ({ badge, onClick }) => {
         </Typography>
         {badge.earned && badge.earned_date && (
           <Typography variant="body2" color="primary">
-            Earned on {new Date(badge.earned_date).toLocaleDateString()}
+            Earned on {formatDate(badge.earned_date)}
           </Typography>
         )}
       </Box>
