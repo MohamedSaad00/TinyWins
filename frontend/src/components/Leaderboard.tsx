@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { EmojiEvents as TrophyIcon } from '@material-ui/icons';
+import { EmojiEvents as TrophyIcon } from '@mui/icons-material';
 import api from '../services/api';
-import { LeaderboardEntry } from '../services/api';
+import { User } from '../services/api';
 
 const Leaderboard: React.FC = () => {
-  const [leaders, setLeaders] = useState<LeaderboardEntry[]>([]);
+  const [leaders, setLeaders] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
