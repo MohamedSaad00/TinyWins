@@ -1,105 +1,161 @@
 # TinyWins - Daily Achievement Tracker
 
-TinyWins is a simple streak tracker that helps users log their daily wins and maintain motivation through achievement badges and leaderboards.
+A modern web application that helps users track their daily wins and build positive habits. Built with React, TypeScript, and Material-UI v5.
 
 ## Features
 
-- 📝 Daily win logging
-- 🏆 Achievement badges (7-day and 15-day streaks)
-- 📊 Monthly streak tracking
-- 📈 History view of past achievements
-- 🏅 Leaderboard ranking
-- 🔔 Badge earning notifications
+- 🔐 Secure Authentication
+  - User registration with username and password
+  - JWT-based authentication
+  - Protected routes for authenticated users
+
+- 🏆 Daily Win Tracking
+  - Log daily achievements
+  - Track current and highest streaks
+  - View win history
+
+- 🎯 Achievement System
+  - Earn badges for different milestones
+  - Track progress towards badges
+  - Visual progress indicators
+
+- 📊 Leaderboard
+  - Real-time user rankings
+  - Display current streaks
+  - Show total wins and badges earned
 
 ## Tech Stack
 
-- Frontend: React with TypeScript
-- Backend: Flask (Python)
-- Database: SQLite
-- UI Framework: Material-UI
-- State Management: React Hooks + Local Storage
-- API Communication: Axios
+### Frontend
+- React 18
+- TypeScript
+- Material-UI v5
+- React Router v6
+- Axios for API calls
+- React Toastify for notifications
+
+### Backend
+- Node.js
+- Express
+- PostgreSQL
+- JWT for authentication
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- PostgreSQL database
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/MohamedSaad00/TinyWins.git
+cd TinyWins
+```
+
+2. Install dependencies:
+```bash
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+```
+
+3. Set up environment variables:
+   - Create `.env` files in both backend and frontend directories
+   - See `.env.example` files for required variables
+
+4. Start the development servers:
+```bash
+# Start backend server
+cd backend
+npm run dev
+
+# Start frontend server
+cd frontend
+npm start
+```
+
+## Deployment
+
+The application is deployed on Railway:
+
+- Frontend: https://tinywins.up.railway.app
+- API: https://tinywins.up.railway.app/api
+
+### Railway Configuration
+- Environment Variables:
+  - `REACT_APP_API_URL`: https://tinywins.up.railway.app/api
+  - `PORT`: 3000
+  - `NODE_ENV`: production
+
+### Build and Deploy
+1. Push changes to the master branch
+2. Railway automatically builds and deploys the application
+3. Build command: `npm install && npm run build`
+4. Start command: `npm start`
+
+## Recent Updates
+
+### Authentication System
+- Implemented secure JWT-based authentication
+- Added user registration with password
+- Protected routes for authenticated users
+- Token-based session management
+
+### UI/UX Improvements
+- Migrated to Material-UI v5
+- Added responsive design
+- Improved form validation
+- Enhanced error handling and user feedback
+- Added loading states and transitions
+
+### API Enhancements
+- Added proper TypeScript interfaces
+- Improved error handling
+- Added request/response interceptors
+- Implemented proper authentication headers
 
 ## Project Structure
 
 ```
 TinyWins/
-│── backend/                  # Flask backend
-│   ├── app.py               # Main Flask app
-│   ├── database.py          # Database setup
-│   ├── models.py            # DB models
-│   ├── routes.py            # API routes
-│   ├── scheduler.py         # Monthly reset logic
-│   ├── requirements.txt     # Python dependencies
-│   ├── .env                # Environment variables
-│── frontend/                # React frontend
+├── frontend/
 │   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── services/      # API services
-│   │   ├── App.tsx        # Main app component
-│   ├── package.json       # Frontend dependencies
-│   ├── .env              # Frontend environment variables
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   └── types/
+│   ├── package.json
+│   └── railway.toml
+└── backend/
+    ├── src/
+    │   ├── controllers/
+    │   ├── models/
+    │   ├── routes/
+    │   └── middleware/
+    └── package.json
 ```
-
-## Setup Instructions
-
-### Backend Setup
-
-1. Create a Python virtual environment:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Set up environment variables:
-   - Copy `.env.example` to `.env`
-   - Update variables as needed
-
-4. Run the Flask server:
-   ```bash
-   flask run
-   ```
-
-### Frontend Setup
-
-1. Install dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-2. Set up environment variables:
-   - Copy `.env.example` to `.env`
-   - Update variables as needed
-
-3. Start the development server:
-   ```bash
-   npm start
-   ```
-
-## Deployment
-
-The application is configured for deployment on Railway:
-
-1. Create a new Railway project
-2. Connect your GitHub repository
-3. Configure environment variables in Railway dashboard
-4. Deploy both frontend and backend services
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Material-UI team for the excellent component library
+- Railway for the hosting platform
+- All contributors who have helped improve the project 

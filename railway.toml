@@ -13,4 +13,4 @@ restartPolicyMaxRetries = 3
 PYTHON_VERSION = "3.10"
 FLASK_ENV = "production"
 PYTHONPATH = "/app/backend"
-PATH = "/usr/local/bin:/usr/bin:/bin" 
+PATH = "/usr/local/bin:/usr/bin:/bin"
