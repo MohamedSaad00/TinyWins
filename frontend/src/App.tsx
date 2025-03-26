@@ -15,20 +15,22 @@ const App: React.FC = () => {
   const { userId, username, isLoading, login, logout, isAuthenticated } = useAuth();
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [usernameInput, setUsernameInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
 
   const handleLogin = async () => {
-    if (!usernameInput.trim()) {
-      toast.error('Please enter a username');
+    if (!usernameInput.trim() || !passwordInput.trim()) {
+      toast.error('Please enter both username and password');
       return;
     }
 
-    const success = await login(usernameInput);
+    const success = await login(usernameInput, passwordInput);
     if (success) {
       setLoginDialogOpen(false);
       setUsernameInput('');
+      setPasswordInput('');
       toast.success('Welcome to TinyWins!');
     } else {
-      toast.error('Failed to create account');
+      toast.error('Login failed. Please check your credentials.');
     }
   };
 
@@ -113,6 +115,15 @@ const App: React.FC = () => {
               fullWidth
               value={usernameInput}
               onChange={(e) => setUsernameInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+            />
+            <TextField
+              margin="dense"
+              label="Password"
+              type="password"
+              fullWidth
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
             />
           </DialogContent>

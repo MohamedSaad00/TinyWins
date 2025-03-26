@@ -30,17 +30,18 @@ export const useAuth = () => {
     }
   }, []);
 
-  const login = async (username: string) => {
+  const login = async (username: string, password: string) => {
     try {
-      const user = await api.createUser(username);
+      const response = await api.login(username, password);
       
       // Store in local storage
-      localStorage.setItem('userId', user.id.toString());
-      localStorage.setItem('username', user.username);
+      localStorage.setItem('userId', response.userId.toString());
+      localStorage.setItem('username', username);
+      localStorage.setItem('token', response.token);
       
       setAuthState({
-        userId: user.id,
-        username: user.username,
+        userId: response.userId,
+        username: username,
         isLoading: false
       });
       
