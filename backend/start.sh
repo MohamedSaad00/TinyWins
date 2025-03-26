@@ -2,7 +2,7 @@
 
 # Set environment variables
 export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
-export PYTHONPATH=/app/backend:$PYTHONPATH
+export PYTHONPATH=/app:$PYTHONPATH
 export FLASK_APP=app.py
 export FLASK_ENV=production
 
@@ -21,4 +21,4 @@ exec gunicorn \
     --access-logfile - \
     --error-logfile - \
     --log-level info \
-    "app:create_app()" 
+    "app:create_app()"
