@@ -36,6 +36,11 @@ export interface Streak {
   year: number;
 }
 
+export interface LoginResponse {
+  token: string;
+  userId: number;
+}
+
 interface ErrorResponse {
   error?: string;
   message?: string;
@@ -62,6 +67,12 @@ api.interceptors.response.use(
 );
 
 const apiService = {
+  // Auth endpoints
+  login: async (username: string, password: string): Promise<LoginResponse> => {
+    const response = await api.post('/auth/login', { username, password });
+    return response.data;
+  },
+
   // User endpoints
   createUser: async (username: string): Promise<User> => {
     const response = await api.post('/user', { username });
