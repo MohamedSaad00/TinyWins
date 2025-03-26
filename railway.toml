@@ -3,7 +3,7 @@ builder = "nixpacks"
 buildCommand = "apt-get update && apt-get install -y python3-pip && python3 -m pip install --upgrade pip && cd backend && python3 -m pip install -r requirements.txt && chmod +x start.sh && cp start.sh /app/start.sh && chmod +x /app/start.sh"
 
 [deploy]
-startCommand = "/app/start.sh"
+startCommand = "cd /app && export PATH=/usr/local/bin:$PATH && ./start.sh"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 600
 restartPolicyType = "on_failure"
@@ -13,5 +13,5 @@ restartPolicyMaxRetries = 3
 PORT = "8000"
 PYTHONUNBUFFERED = "1"
 FLASK_ENV = "production"
-PYTHONPATH = "."
+PYTHONPATH = "/app/backend"
 PATH = "/usr/local/bin:$PATH" 

@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-export PATH=$PATH:/usr/local/bin
+export PATH=/usr/local/bin:$PATH
+export PYTHONPATH=/app/backend:$PYTHONPATH
+
 cd /app/backend
 
 echo "Starting Gunicorn server..."
