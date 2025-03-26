@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Paper, Typography, CircularProgress, Box } from '@material-ui/core';
+import { Button, Paper, Typography, CircularProgress, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import api from '../services/api';
+import { Link } from 'react-router-dom';
 
 interface HomeProps {
   userId: number;

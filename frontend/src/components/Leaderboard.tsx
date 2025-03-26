@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Typography, List, ListItem, ListItemText, ListItemIcon, Box } from '@material-ui/core';
+import { Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { EmojiEvents as TrophyIcon } from '@material-ui/icons';
 import api from '../services/api';
-
-interface LeaderboardEntry {
-  username: string;
-  current_streak: number;
-  highest_streak: number;
-  badges: string[];
-}
+import { LeaderboardEntry } from '../services/api';
 
 const Leaderboard: React.FC = () => {
   const [leaders, setLeaders] = useState<LeaderboardEntry[]>([]);
@@ -47,32 +41,26 @@ const Leaderboard: React.FC = () => {
         Leaderboard
       </Typography>
 
-      <List>
-        {leaders.map((leader, index) => (
-          <ListItem key={leader.username} divider={index !== leaders.length - 1}>
-            <ListItemIcon>
-              <TrophyIcon style={{ color: getIconColor(index) }} />
-            </ListItemIcon>
-            <ListItemText
-              primary={leader.username}
-              secondary={
-                <Box component="span">
-                  Current Streak: {leader.current_streak} days
-                  <br />
-                  Highest Streak: {leader.highest_streak} days
-                  <br />
-                  Badges: {leader.badges.length}
-                </Box>
-              }
-            />
-          </ListItem>
-        ))}
-        {leaders.length === 0 && (
-          <ListItem>
-            <ListItemText primary="No leaders yet" />
-          </ListItem>
-        )}
-      </List>
+      <TableContainer>
+        <Table>
+          <TableBody>
+            {leaders.map((leader, index) => (
+              <TableRow key={leader.username}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{leader.username}</TableCell>
+                <TableCell>{leader.current_streak} days</TableCell>
+                <TableCell>{leader.highest_streak} days</TableCell>
+                <TableCell>{leader.badges.length}</TableCell>
+              </TableRow>
+            ))}
+            {leaders.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5}>No leaders yet</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Paper>
   );
 };

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Container, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Streak from './components/Streak';
+import History from './components/History';
+import api from './services/api';
 
 import Home from './components/Home';
-import History from './components/History';
 import Leaderboard from './components/Leaderboard';
 import useAuth from './hooks/useAuth';
 
