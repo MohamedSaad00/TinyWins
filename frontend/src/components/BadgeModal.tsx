@@ -1,38 +1,40 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Typography, Box } from '@mui/material';
 import { Badge as BadgeType } from '../services/api';
 
 interface BadgeModalProps {
-  badge: BadgeType;
+  badge: BadgeType | null;
   open: boolean;
   onClose: () => void;
 }
 
+const formatDate = (dateString: string | undefined): string => {
+  if (!dateString) return '';
+  try {
+    return new Date(dateString).toLocaleDateString();
+  } catch (error) {
+    return '';
+  }
+};
+
 const BadgeModal: React.FC<BadgeModalProps> = ({ badge, open, onClose }) => {
+  if (!badge) return null;
+
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>
-        <Typography variant="h5">{badge.name}</Typography>
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{badge.name}</DialogTitle>
       <DialogContent>
-        <Box mt={2}>
-          <Typography variant="body1" paragraph>
-            {badge.description}
-          </Typography>
-          {badge.earned && (
+        <Box>
+          <Typography variant="body1">{badge.description}</Typography>
+          {badge.earned && badge.earned_date && (
             <Typography variant="body2" color="primary">
-              Earned on {new Date(badge.earned_date).toLocaleDateString()}
+              Earned on {formatDate(badge.earned_date)}
             </Typography>
           )}
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };
 
-export default BadgeModal; 
+export default BadgeModal;
