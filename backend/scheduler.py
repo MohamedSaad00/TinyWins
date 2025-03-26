@@ -1,6 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from datetime import datetime
+import pytz
 from models import db, User, Streak
 
 def reset_monthly_streaks():
@@ -10,8 +11,8 @@ def reset_monthly_streaks():
         users = User.query.all()
         
         # Create historical streak records and reset current streaks
-        current_month = datetime.utcnow().month
-        current_year = datetime.utcnow().year
+        current_month = datetime.now(pytz.UTC).month
+        current_year = datetime.now(pytz.UTC).year
         
         for user in users:
             if user.current_streak > 0:
@@ -32,13 +33,14 @@ def reset_monthly_streaks():
 
 def init_scheduler(app):
     """Initialize the scheduler with the monthly reset job"""
-    scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler(timezone=pytz.UTC)
     
-    # Schedule the reset job to run at midnight on the 1st of every month
+    # Schedule the reset job to run at midnight UTC on the 1st of every month
     trigger = CronTrigger(
         day="1",
         hour="0",
-        minute="0"
+        minute="0",
+        timezone=pytz.UTC
     )
     
     scheduler.add_job(
