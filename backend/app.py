@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database import init_db
+from database import init_db, db
 from routes import api
 from scheduler import init_scheduler
 from migrations import init_migrations
@@ -41,23 +41,24 @@ def create_app():
     # Add scheduler to app context
     app.scheduler = scheduler
     
+    # Register health check route
+    @app.route('/api/health')
+    def health_check():
+        try:
+            # Check database connection
+            db.session.execute('SELECT 1')
+            return jsonify({
+                'status': 'healthy',
+                'database': 'connected',
+                'timestamp': datetime.utcnow().isoformat()
+            }), 200
+        except Exception as e:
+            return jsonify({
+                'status': 'unhealthy',
+                'error': str(e)
+            }), 500
+    
     return app
-
-@app.route('/api/health')
-def health_check():
-    try:
-        # Check database connection
-        db.session.execute('SELECT 1')
-        return jsonify({
-            'status': 'healthy',
-            'database': 'connected',
-            'timestamp': datetime.utcnow().isoformat()
-        }), 200
-    except Exception as e:
-        return jsonify({
-            'status': 'unhealthy',
-            'error': str(e)
-        }), 500
 
 if __name__ == '__main__':
     app = create_app()

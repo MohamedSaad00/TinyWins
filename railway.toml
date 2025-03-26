@@ -1,17 +1,16 @@
 [build]
 builder = "nixpacks"
-buildCommand = "apt-get update && apt-get install -y python3-pip && python3 -m pip install --upgrade pip && cd backend && python3 -m pip install -r requirements.txt && chmod +x start.sh && cp start.sh /app/start.sh && chmod +x /app/start.sh"
+buildCommand = "apt-get update && apt-get install -y python3.10 python3.10-dev python3-pip build-essential && ln -sf /usr/bin/python3.10 /usr/bin/python && ln -sf /usr/bin/pip3 /usr/bin/pip && python -m pip install --upgrade pip && cd backend && pip install -r requirements.txt"
 
 [deploy]
-startCommand = "cd /app && export PATH=/usr/local/bin:$PATH && ./start.sh"
+startCommand = "cd /app && export PATH=/usr/local/bin:/usr/bin:/bin:$PATH && export PYTHONPATH=/app/backend:$PYTHONPATH && cd backend && chmod +x start.sh && ./start.sh"
 healthcheckPath = "/api/health"
-healthcheckTimeout = 600
+healthcheckTimeout = 100
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 
 [deploy.env]
-PORT = "8000"
-PYTHONUNBUFFERED = "1"
+PYTHON_VERSION = "3.10"
 FLASK_ENV = "production"
 PYTHONPATH = "/app/backend"
-PATH = "/usr/local/bin:$PATH" 
+PATH = "/usr/local/bin:/usr/bin:/bin" 
