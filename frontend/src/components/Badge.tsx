@@ -19,17 +19,17 @@ const Badge: React.FC<BadgeProps> = ({ badge, onClick }) => {
       }}
       onClick={onClick}
     >
-      <Typography variant="h6">{badge.name}</Typography>
-      <Typography variant="body2" color="textSecondary">
-        {badge.description}
-      </Typography>
-      {badge.earned && badge.earned_date && (
-        <Box mt={1}>
-          <Typography variant="caption" color="primary">
+      <Box>
+        <Typography variant="h6">{badge.name}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          {badge.description}
+        </Typography>
+        {badge.earned && badge.earned_date && (
+          <Typography variant="body2" color="primary">
             Earned on {new Date(badge.earned_date).toLocaleDateString()}
           </Typography>
-        </Box>
-      )}
+        )}
+      </Box>
     </Paper>
   );
 };
