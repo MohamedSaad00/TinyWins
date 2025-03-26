@@ -41,6 +41,11 @@ export interface LoginResponse {
   userId: number;
 }
 
+export interface RegisterResponse {
+  user: User;
+  token: string;
+}
+
 interface ErrorResponse {
   error?: string;
   message?: string;
@@ -74,8 +79,8 @@ const apiService = {
   },
 
   // User endpoints
-  createUser: async (username: string): Promise<User> => {
-    const response = await api.post('/user', { username });
+  createUser: async (username: string, password: string): Promise<RegisterResponse> => {
+    const response = await api.post('/auth/register', { username, password });
     return response.data;
   },
 

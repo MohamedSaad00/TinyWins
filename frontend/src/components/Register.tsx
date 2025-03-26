@@ -18,9 +18,9 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await api.createUser(username);
+      const response = await api.createUser(username, password);
       localStorage.setItem('token', response.token);
-      localStorage.setItem('userId', response.userId.toString());
+      localStorage.setItem('userId', response.user.id.toString());
       toast.success('Registration successful!');
       navigate('/home');
     } catch (error) {
