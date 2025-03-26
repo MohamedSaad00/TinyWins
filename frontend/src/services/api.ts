@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -9,6 +9,13 @@ const api = axios.create({
     'Content-Type': 'application/json'
   }
 });
+
+export interface Badge {
+  name: string;
+  description: string;
+  earned: boolean;
+  earned_date?: string;
+}
 
 export interface User {
   id: number;
@@ -25,8 +32,8 @@ export interface Streak {
 
 // Add response interceptor for error handling
 api.interceptors.response.use(
-  response => response,
-  error => {
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
     if (error.response) {
       // Server responded with error status
       console.error('API Error:', error.response.data);
