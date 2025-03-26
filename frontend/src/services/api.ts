@@ -16,6 +16,8 @@ export interface Badge {
   description: string;
   earned: boolean;
   earned_date?: string;
+  current_progress: number;
+  required_progress: number;
 }
 
 export interface User {
