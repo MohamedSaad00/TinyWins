@@ -1,10 +1,23 @@
 #!/bin/bash
-set -e
 
-export PATH=/usr/local/bin:$PATH
+# Set environment variables
+export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
 export PYTHONPATH=/app/backend:$PYTHONPATH
+export FLASK_APP=app.py
+export FLASK_ENV=production
 
-cd /app/backend
+# Print environment for debugging
+echo "Current directory: $(pwd)"
+echo "Python version: $(python --version)"
+echo "PYTHONPATH: $PYTHONPATH"
+echo "PATH: $PATH"
 
-echo "Starting Gunicorn server..."
-exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 "app:create_app()" 
+# Start Gunicorn with proper configuration
+exec gunicorn --bind 0.0.0.0:$PORT \
+    --workers 4 \
+    --threads 2 \
+    --timeout 120 \
+    --access-logfile - \
+    --error-logfile - \
+    --log-level info \
+    app:create_app() 
