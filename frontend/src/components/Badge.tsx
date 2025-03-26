@@ -23,7 +23,7 @@ const Badge: React.FC<BadgeProps> = ({ badge, onClick }) => {
       <Typography variant="body2" color="textSecondary">
         {badge.description}
       </Typography>
-      {badge.earned && (
+      {badge.earned && badge.earned_date && (
         <Box mt={1}>
           <Typography variant="caption" color="primary">
             Earned on {new Date(badge.earned_date).toLocaleDateString()}
