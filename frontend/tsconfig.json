@@ -16,8 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true,
     "types": ["node", "react", "react-dom"]
   },
   "include": ["src"]
-}
+} 

@@ -18,12 +18,15 @@ export interface Badge {
   earned_date?: string;
   current_progress: number;
   required_progress: number;
+  progress_description?: string;
 }
 
 export interface User {
   id: number;
   username: string;
   current_streak: number;
+  highest_streak: number;
+  total_wins: number;
   badges: string[];
 }
 
@@ -33,14 +36,19 @@ export interface Streak {
   year: number;
 }
 
+interface ErrorResponse {
+  error?: string;
+  message?: string;
+}
+
 // Add response interceptor for error handling
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error: AxiosError) => {
+  (error: AxiosError<ErrorResponse>) => {
     if (error.response) {
       // Server responded with error status
       console.error('API Error:', error.response.data);
-      throw new Error(error.response.data.error || 'An error occurred');
+      throw new Error(error.response.data?.error || error.response.data?.message || 'An error occurred');
     } else if (error.request) {
       // Request made but no response
       console.error('Network Error:', error.request);
@@ -57,6 +65,16 @@ const apiService = {
   // User endpoints
   createUser: async (username: string): Promise<User> => {
     const response = await api.post('/user', { username });
+    return response.data;
+  },
+
+  getUser: async (userId: number): Promise<User> => {
+    const response = await api.get(`/user/${userId}`);
+    return response.data;
+  },
+
+  updateUser: async (userId: number, data: { username: string }): Promise<User> => {
+    const response = await api.put(`/user/${userId}`, data);
     return response.data;
   },
 

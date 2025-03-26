@@ -33,9 +33,11 @@ const BadgeProgressModal: React.FC<BadgeProgressModalProps> = ({ badge, open, on
               {badge.current_progress}/{badge.required_progress}
             </Typography>
           </Box>
-          <Typography variant="caption" color="textSecondary" display="block" mt={1}>
-            {badge.progress_description}
-          </Typography>
+          {badge.progress_description && (
+            <Typography variant="caption" color="textSecondary" display="block" mt={1}>
+              {badge.progress_description}
+            </Typography>
+          )}
         </Box>
       </DialogContent>
       <DialogActions>
