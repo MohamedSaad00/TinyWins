@@ -3,7 +3,7 @@ builder = "nixpacks"
 buildCommand = "apt-get update && apt-get install -y python3-pip && python3 -m pip install --upgrade pip && cd backend && python3 -m pip install -r requirements.txt"
 
 [deploy]
-startCommand = "cd backend && gunicorn app:create_app()"
+startCommand = "cd backend && gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:create_app()"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
@@ -12,4 +12,5 @@ restartPolicyMaxRetries = 3
 [deploy.env]
 FLASK_ENV = "production"
 PYTHON_UNBUFFERED = "1"
-PYTHON_VERSION = "3.9" 
+PYTHON_VERSION = "3.9"
+FLASK_APP = "app.py" 
