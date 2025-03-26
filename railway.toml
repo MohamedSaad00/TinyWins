@@ -7,13 +7,4 @@ startCommand = "cd backend && gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeou
 healthcheckPath = "/api/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 3
-
-[deploy.env]
-FLASK_ENV = "production"
-PYTHON_UNBUFFERED = "1"
-PYTHON_VERSION = "3.9"
-FLASK_APP = "app.py"
-DATABASE_URL = postgresql://postgres:bGGNbnYSilpHPlluuoUhTwnKoLtNXRil@metro.proxy.rlwy.net:55187/railway
-SECRET_KEY = eldghamiy
-ALLOWED_ORIGINS = "https://tinywins.up.railway.app" 
+restartPolicyMaxRetries = 3 
