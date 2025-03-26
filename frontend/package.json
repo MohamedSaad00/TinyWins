@@ -20,9 +20,7 @@
     "serve": "^14.2.1",
     "typescript": "^4.4.2"
   },
-  "devDependencies": {
-    "@types/axios": "^0.14.0"
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "serve -s build -l $PORT",
     "dev": "react-scripts start",
