@@ -11,6 +11,7 @@ const api = axios.create({
 });
 
 export interface Badge {
+  id: number;
   name: string;
   description: string;
   earned: boolean;
