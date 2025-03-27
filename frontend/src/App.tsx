@@ -136,6 +136,11 @@ const App: React.FC = () => {
       return;
     }
 
+    if (passwordInput.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      return;
+    }
+
     try {
       const response = await api.createUser(usernameInput, passwordInput);
       localStorage.setItem('token', response.token);
@@ -146,8 +151,13 @@ const App: React.FC = () => {
       setPasswordInput('');
       setConfirmPassword('');
       toast.success('Registration successful! Welcome to TinyWins!');
-    } catch (error) {
-      toast.error('Registration failed. Please try a different username.');
+    } catch (error: any) {
+      const errorMessage = error.message || 'Registration failed. Please try again.';
+      if (errorMessage.toLowerCase().includes('username')) {
+        toast.error('This username is already taken. Please choose another one.');
+      } else {
+        toast.error(errorMessage);
+      }
     }
   };
 
