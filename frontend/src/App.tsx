@@ -12,6 +12,7 @@ import HomeLanding from './components/HomeLanding';
 import Leaderboard from './components/Leaderboard';
 import About from './components/About';
 import useAuth from './hooks/useAuth';
+import Blog from './components/Blog';
 
 const LandingPage: React.FC = () => {
   return (
@@ -203,53 +204,61 @@ const App: React.FC = () => {
         <div style={{ minHeight: '100vh', backgroundColor: theme.palette.background.default }}>
           <AppBar position="static">
             <Toolbar>
-              <Typography 
-                variant="h6" 
-                component={Link} 
-                to="/" 
-                style={{ 
-                  flexGrow: 1, 
-                  textDecoration: 'none', 
-                  color: 'inherit',
-                  cursor: 'pointer'
-                }}
-              >
-                TinyWins
-              </Typography>
-              <IconButton color="inherit" onClick={toggleTheme} sx={{ mr: 2 }}>
-                {darkMode ? <Brightness7 /> : <Brightness4 />}
-              </IconButton>
-              {isAuthenticated ? (
-                <>
-                  <Typography variant="body1" style={{ marginRight: '1rem' }}>
-                    Welcome, {username}!
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <IconButton
+                  component={Link}
+                  to="/"
+                  color="inherit"
+                  sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1,
+                    textDecoration: 'none',
+                    '&:hover': {
+                      textDecoration: 'none',
+                    }
+                  }}
+                >
+                  <EmojiEvents sx={{ fontSize: 28 }} />
+                  <Typography variant="h6" component="span" sx={{ fontWeight: 'bold' }}>
+                    TinyWins
                   </Typography>
-                  <Button color="inherit" component={Link} to="/">
-                    Home
-                  </Button>
-                  <Button color="inherit" component={Link} to="/history">
-                    History
-                  </Button>
-                  <Button color="inherit" component={Link} to="/leaderboard">
-                    Leaderboard
-                  </Button>
-                  <Button color="inherit" component={Link} to="/about">
-                    About
-                  </Button>
-                  <Button color="inherit" onClick={logout}>
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button color="inherit" component={Link} to="/about">
-                    About
-                  </Button>
-                  <Button color="inherit" onClick={() => setAuthDialogOpen(true)}>
-                    Login / Register
-                  </Button>
-                </>
-              )}
+                </IconButton>
+                <Button component={Link} to="/about" color="inherit">
+                  About
+                </Button>
+                <Button component={Link} to="/blog" color="inherit">
+                  Blog
+                </Button>
+                {isAuthenticated ? (
+                  <>
+                    <Typography variant="body1" style={{ marginRight: '1rem' }}>
+                      Welcome, {username}!
+                    </Typography>
+                    <Button color="inherit" component={Link} to="/">
+                      Home
+                    </Button>
+                    <Button color="inherit" component={Link} to="/history">
+                      History
+                    </Button>
+                    <Button color="inherit" component={Link} to="/leaderboard">
+                      Leaderboard
+                    </Button>
+                    <Button color="inherit" component={Link} to="/about">
+                      About
+                    </Button>
+                    <Button color="inherit" onClick={logout}>
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button color="inherit" onClick={() => setAuthDialogOpen(true)}>
+                      Login / Register
+                    </Button>
+                  </>
+                )}
+              </Box>
             </Toolbar>
           </AppBar>
 
@@ -297,6 +306,7 @@ const App: React.FC = () => {
                   } 
                 />
                 <Route path="/about" element={<About />} />
+                <Route path="/blog" element={<Blog />} />
               </Routes>
             </Box>
           </Container>
