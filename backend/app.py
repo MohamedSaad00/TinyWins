@@ -22,13 +22,15 @@ def create_app():
         print('Request Origin:', request.headers.get('Origin'))
         print('Allowed Origins:', allowed_origins)
     
-    # Configure CORS - more permissive configuration
+    # Configure CORS with specific origins
     CORS(app, 
-         resources={r"/api/*": {"origins": "*"}},
-         supports_credentials=True,
-         allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
-         expose_headers=["Content-Type", "Authorization"],
-         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+         resources={r"/api/*": {
+             "origins": allowed_origins,
+             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+             "allow_headers": ["Content-Type", "Authorization"],
+             "expose_headers": ["Content-Type", "Authorization"],
+             "supports_credentials": True
+         }})
     
     # Set secret key
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
