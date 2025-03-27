@@ -10,13 +10,15 @@ from datetime import datetime
 def create_app():
     app = Flask(__name__)
     
+    # Get allowed origins from environment variable
+    allowed_origins = os.getenv('ALLOWED_ORIGINS', '').split(',')
+    if not allowed_origins[0]:  # If ALLOWED_ORIGINS is empty
+        allowed_origins = ['http://localhost:3000']  # Default to localhost
+    
     # Configure CORS with specific origins and methods
     CORS(app, resources={
         r"/api/*": {
-            "origins": [
-                "http://localhost:3000",  # React development server
-                "https://tinywins.up.railway.app",  # Production frontend URL
-            ],
+            "origins": allowed_origins,
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization"],
             "supports_credentials": True
@@ -50,7 +52,8 @@ def create_app():
             return jsonify({
                 'status': 'healthy',
                 'database': 'connected',
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.utcnow().isoformat(),
+                'allowed_origins': allowed_origins
             }), 200
         except Exception as e:
             return jsonify({

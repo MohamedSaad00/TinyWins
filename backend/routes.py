@@ -2,8 +2,53 @@ from flask import Blueprint, jsonify, request, current_app
 from datetime import datetime, timedelta
 import json
 from models import db, User, Streak
+from werkzeug.security import generate_password_hash
+import jwt
 
 api = Blueprint('api', __name__)
+
+def generate_token(user_id):
+    """Generate a JWT token for the user"""
+    secret_key = current_app.config['SECRET_KEY']
+    token = jwt.encode(
+        {'user_id': user_id, 'exp': datetime.utcnow() + timedelta(days=1)},
+        secret_key,
+        algorithm='HS256'
+    )
+    return token
+
+@api.route('/auth/register', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
+        
+        if User.query.filter_by(username=username).first():
+            return jsonify({'error': 'Username already exists'}), 400
+        
+        user = User(username=username)
+        user.set_password(password)
+        
+        db.session.add(user)
+        db.session.commit()
+        
+        token = generate_token(user.id)
+        
+        return jsonify({
+            'user': {
+                'id': user.id,
+                'username': user.username
+            },
+            'token': token
+        }), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 @api.route('/health', methods=['GET'])
 def health_check():
