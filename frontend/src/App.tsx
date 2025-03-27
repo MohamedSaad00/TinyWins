@@ -142,16 +142,25 @@ const App: React.FC = () => {
     }
 
     try {
+      console.log('Starting registration process...');
       const response = await api.createUser(usernameInput, passwordInput);
+      console.log('Registration response received:', response);
+      
+      if (!response || !response.user || !response.token) {
+        throw new Error('Invalid response from server');
+      }
+
       localStorage.setItem('token', response.token);
       localStorage.setItem('userId', response.user.id.toString());
       localStorage.setItem('username', response.user.username);
+      
       setAuthDialogOpen(false);
       setUsernameInput('');
       setPasswordInput('');
       setConfirmPassword('');
       toast.success('Registration successful! Welcome to TinyWins!');
     } catch (error: any) {
+      console.error('Registration error:', error);
       const errorMessage = error.message || 'Registration failed. Please try again.';
       if (errorMessage.toLowerCase().includes('username')) {
         toast.error('This username is already taken. Please choose another one.');

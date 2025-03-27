@@ -10,6 +10,19 @@ const api = axios.create({
   }
 });
 
+// Add request interceptor for debugging
+api.interceptors.request.use(
+  (config) => {
+    console.log('Making request to:', config.url);
+    console.log('Request data:', config.data);
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
 export interface Badge {
   id: number;
   name: string;
@@ -51,9 +64,13 @@ interface ErrorResponse {
   message?: string;
 }
 
-// Add response interceptor for error handling
+// Add response interceptor for debugging
 api.interceptors.response.use(
-  (response: AxiosResponse) => response,
+  (response) => {
+    console.log('Response from:', response.config.url);
+    console.log('Response data:', response.data);
+    return response;
+  },
   (error: AxiosError<ErrorResponse>) => {
     if (error.response) {
       // Server responded with error status
@@ -75,7 +92,9 @@ const apiService = {
   // Auth endpoints
   login: async (username: string, password: string): Promise<LoginResponse> => {
     try {
+      console.log('Attempting login with username:', username);
       const response = await api.post('/auth/login', { username, password });
+      console.log('Login response:', response.data);
       return response.data;
     } catch (error: any) {
       console.error('Login error:', error);
@@ -86,7 +105,9 @@ const apiService = {
   // User endpoints
   createUser: async (username: string, password: string): Promise<RegisterResponse> => {
     try {
+      console.log('Attempting registration with username:', username);
       const response = await api.post('/auth/register', { username, password });
+      console.log('Registration response:', response.data);
       return response.data;
     } catch (error: any) {
       console.error('Registration error:', error);
