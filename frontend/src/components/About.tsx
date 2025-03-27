@@ -65,7 +65,7 @@ const About: React.FC = () => {
             👨‍💻 Meet the Developer
           </Typography>
           <Typography paragraph>
-            TinyWins is developed by Mohamed Saad, a passionate backend developer focused on building scalable, secure, and high-performance applications.
+            👋 Hi, I'm Mohamed Saad, a Full Stack Developer passionate about building efficient and user-friendly applications. I created TinyWins to make habit tracking simple, rewarding, and engaging.
           </Typography>
 
           <Typography variant="h6" gutterBottom>

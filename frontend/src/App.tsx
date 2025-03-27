@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Container, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions, CssBaseline, ThemeProvider, createTheme, Tabs, Tab, Paper, Grid, Card, CardContent } from '@mui/material';
-import { EmojiEvents, Timeline, Stars, TrendingUp } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, Container, Button, Box, TextField, Dialog, DialogTitle, DialogContent, DialogActions, CssBaseline, ThemeProvider, createTheme, Tabs, Tab, Paper, Grid, Card, CardContent, IconButton } from '@mui/material';
+import { EmojiEvents, Timeline, Stars, TrendingUp, Brightness4, Brightness7 } from '@mui/icons-material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Streak from './components/Streak';
@@ -101,6 +101,23 @@ const App: React.FC = () => {
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+      primary: {
+        main: '#2196F3',
+      },
+      secondary: {
+        main: '#FF9800',
+      },
+    },
+  });
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -180,160 +197,176 @@ const App: React.FC = () => {
   }
 
   return (
-    <Router>
-      <div style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
-              TinyWins
-            </Typography>
-            {isAuthenticated ? (
-              <>
-                <Typography variant="body1" style={{ marginRight: '1rem' }}>
-                  Welcome, {username}!
-                </Typography>
-                <Button color="inherit" component={Link} to="/">
-                  Home
-                </Button>
-                <Button color="inherit" component={Link} to="/history">
-                  History
-                </Button>
-                <Button color="inherit" component={Link} to="/leaderboard">
-                  Leaderboard
-                </Button>
-                <Button color="inherit" component={Link} to="/about">
-                  About
-                </Button>
-                <Button color="inherit" onClick={logout}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button color="inherit" component={Link} to="/about">
-                  About
-                </Button>
-                <Button color="inherit" onClick={() => setAuthDialogOpen(true)}>
-                  Login / Register
-                </Button>
-              </>
-            )}
-          </Toolbar>
-        </AppBar>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <div style={{ minHeight: '100vh', backgroundColor: theme.palette.background.default }}>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography 
+                variant="h6" 
+                component={Link} 
+                to="/" 
+                style={{ 
+                  flexGrow: 1, 
+                  textDecoration: 'none', 
+                  color: 'inherit',
+                  cursor: 'pointer'
+                }}
+              >
+                TinyWins
+              </Typography>
+              <IconButton color="inherit" onClick={toggleTheme} sx={{ mr: 2 }}>
+                {darkMode ? <Brightness7 /> : <Brightness4 />}
+              </IconButton>
+              {isAuthenticated ? (
+                <>
+                  <Typography variant="body1" style={{ marginRight: '1rem' }}>
+                    Welcome, {username}!
+                  </Typography>
+                  <Button color="inherit" component={Link} to="/">
+                    Home
+                  </Button>
+                  <Button color="inherit" component={Link} to="/history">
+                    History
+                  </Button>
+                  <Button color="inherit" component={Link} to="/leaderboard">
+                    Leaderboard
+                  </Button>
+                  <Button color="inherit" component={Link} to="/about">
+                    About
+                  </Button>
+                  <Button color="inherit" onClick={logout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button color="inherit" component={Link} to="/about">
+                    About
+                  </Button>
+                  <Button color="inherit" onClick={() => setAuthDialogOpen(true)}>
+                    Login / Register
+                  </Button>
+                </>
+              )}
+            </Toolbar>
+          </AppBar>
 
-        <Container>
-          <Box my={4}>
-            <Routes>
-              <Route 
-                path="/" 
-                element={
-                  isAuthenticated ? (
-                    <Home userId={userId!} onBadgeEarned={handleBadgeEarned} />
-                  ) : (
-                    <HomeLanding />
-                  )
-                } 
-              />
-              <Route 
-                path="/dashboard" 
-                element={
-                  isAuthenticated ? (
-                    <Home userId={userId!} onBadgeEarned={handleBadgeEarned} />
-                  ) : (
-                    <Navigate to="/" replace />
-                  )
-                } 
-              />
-              <Route 
-                path="/history" 
-                element={
-                  isAuthenticated ? (
-                    <History userId={userId!} />
-                  ) : (
-                    <Navigate to="/" replace />
-                  )
-                } 
-              />
-              <Route 
-                path="/leaderboard" 
-                element={
-                  isAuthenticated ? (
-                    <Leaderboard />
-                  ) : (
-                    <Navigate to="/" replace />
-                  )
-                } 
-              />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </Box>
-        </Container>
+          <Container>
+            <Box my={4}>
+              <Routes>
+                <Route 
+                  path="/" 
+                  element={
+                    isAuthenticated ? (
+                      <Home userId={userId!} onBadgeEarned={handleBadgeEarned} />
+                    ) : (
+                      <HomeLanding />
+                    )
+                  } 
+                />
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    isAuthenticated ? (
+                      <Home userId={userId!} onBadgeEarned={handleBadgeEarned} />
+                    ) : (
+                      <Navigate to="/" replace />
+                    )
+                  } 
+                />
+                <Route 
+                  path="/history" 
+                  element={
+                    isAuthenticated ? (
+                      <History userId={userId!} />
+                    ) : (
+                      <Navigate to="/" replace />
+                    )
+                  } 
+                />
+                <Route 
+                  path="/leaderboard" 
+                  element={
+                    isAuthenticated ? (
+                      <Leaderboard />
+                    ) : (
+                      <Navigate to="/" replace />
+                    )
+                  } 
+                />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </Box>
+          </Container>
 
-        <Dialog open={authDialogOpen} onClose={() => setAuthDialogOpen(false)} maxWidth="xs" fullWidth>
-          <DialogTitle>
-            <Tabs value={activeTab} onChange={handleTabChange} centered>
-              <Tab label="Login" />
-              <Tab label="Register" />
-            </Tabs>
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Username"
-              type="text"
-              fullWidth
-              value={usernameInput}
-              onChange={(e) => setUsernameInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (activeTab === 0 ? handleLogin() : handleRegister())}
-            />
-            <TextField
-              margin="dense"
-              label="Password"
-              type="password"
-              fullWidth
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (activeTab === 0 ? handleLogin() : handleRegister())}
-            />
-            {activeTab === 1 && (
+          <Dialog open={authDialogOpen} onClose={() => setAuthDialogOpen(false)} maxWidth="xs" fullWidth>
+            <DialogTitle>
+              <Tabs value={activeTab} onChange={handleTabChange} centered>
+                <Tab label="Login" />
+                <Tab label="Register" />
+              </Tabs>
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Username"
+                type="text"
+                fullWidth
+                value={usernameInput}
+                onChange={(e) => setUsernameInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && (activeTab === 0 ? handleLogin() : handleRegister())}
+              />
               <TextField
                 margin="dense"
-                label="Confirm Password"
+                label="Password"
                 type="password"
                 fullWidth
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleRegister()}
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && (activeTab === 0 ? handleLogin() : handleRegister())}
               />
-            )}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setAuthDialogOpen(false)} color="primary">
-              Cancel
-            </Button>
-            <Button 
-              onClick={activeTab === 0 ? handleLogin : handleRegister} 
-              color="primary"
-            >
-              {activeTab === 0 ? 'Login' : 'Register'}
-            </Button>
-          </DialogActions>
-        </Dialog>
+              {activeTab === 1 && (
+                <TextField
+                  margin="dense"
+                  label="Confirm Password"
+                  type="password"
+                  fullWidth
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleRegister()}
+                />
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setAuthDialogOpen(false)} color="primary">
+                Cancel
+              </Button>
+              <Button 
+                onClick={activeTab === 0 ? handleLogin : handleRegister} 
+                color="primary"
+              >
+                {activeTab === 0 ? 'Login' : 'Register'}
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-      </div>
-    </Router>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 };
 
