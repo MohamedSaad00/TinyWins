@@ -15,6 +15,7 @@ api.interceptors.request.use(
   (config) => {
     console.log('Making request to:', config.url);
     console.log('Request data:', config.data);
+    console.log('Request headers:', config.headers);
     return config;
   },
   (error) => {
@@ -69,12 +70,17 @@ api.interceptors.response.use(
   (response) => {
     console.log('Response from:', response.config.url);
     console.log('Response data:', response.data);
+    console.log('Response status:', response.status);
     return response;
   },
   (error: AxiosError<ErrorResponse>) => {
     if (error.response) {
       // Server responded with error status
-      console.error('API Error:', error.response.data);
+      console.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data,
+        headers: error.response.headers
+      });
       throw new Error(error.response.data?.error || error.response.data?.message || 'An error occurred');
     } else if (error.request) {
       // Request made but no response
@@ -108,9 +114,24 @@ const apiService = {
       console.log('Attempting registration with username:', username);
       const response = await api.post('/auth/register', { username, password });
       console.log('Registration response:', response.data);
+      
+      // Validate response structure
+      if (!response.data || typeof response.data !== 'object') {
+        throw new Error('Invalid response format from server');
+      }
+      
+      if (!response.data.user || !response.data.token) {
+        console.error('Invalid response structure:', response.data);
+        throw new Error('Server response missing required fields');
+      }
+      
       return response.data;
     } catch (error: any) {
-      console.error('Registration error:', error);
+      console.error('Registration error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
       throw error;
     }
   },
