@@ -62,11 +62,11 @@ api.interceptors.response.use(
     } else if (error.request) {
       // Request made but no response
       console.error('Network Error:', error.request);
-      throw new Error('Network error - please check your connection');
+      throw new Error('Unable to connect to the server. Please check your internet connection and try again.');
     } else {
       // Request setup error
       console.error('Request Error:', error.message);
-      throw new Error('Failed to make request');
+      throw new Error('Failed to make request. Please try again later.');
     }
   }
 );
@@ -74,14 +74,24 @@ api.interceptors.response.use(
 const apiService = {
   // Auth endpoints
   login: async (username: string, password: string): Promise<LoginResponse> => {
-    const response = await api.post('/auth/login', { username, password });
-    return response.data;
+    try {
+      const response = await api.post('/auth/login', { username, password });
+      return response.data;
+    } catch (error: any) {
+      console.error('Login error:', error);
+      throw error;
+    }
   },
 
   // User endpoints
   createUser: async (username: string, password: string): Promise<RegisterResponse> => {
-    const response = await api.post('/auth/register', { username, password });
-    return response.data;
+    try {
+      const response = await api.post('/auth/register', { username, password });
+      return response.data;
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      throw error;
+    }
   },
 
   getUser: async (userId: number): Promise<User> => {

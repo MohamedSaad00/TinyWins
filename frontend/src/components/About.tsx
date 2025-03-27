@@ -73,7 +73,7 @@ const About: React.FC = () => {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             <Link
-              href="https://www.linkedin.com/in/mohamed-saad"
+              href="https://www.linkedin.com/in/mohamedsaadx/"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
