@@ -8,6 +8,7 @@ import Streak from './components/Streak';
 import History from './components/History';
 import api from './services/api';
 import Home from './components/Home';
+import HomeLanding from './components/HomeLanding';
 import Leaderboard from './components/Leaderboard';
 import About from './components/About';
 import useAuth from './hooks/useAuth';
@@ -229,7 +230,17 @@ const App: React.FC = () => {
                   isAuthenticated ? (
                     <Home userId={userId!} onBadgeEarned={handleBadgeEarned} />
                   ) : (
-                    <About />
+                    <HomeLanding />
+                  )
+                } 
+              />
+              <Route 
+                path="/dashboard" 
+                element={
+                  isAuthenticated ? (
+                    <Home userId={userId!} onBadgeEarned={handleBadgeEarned} />
+                  ) : (
+                    <Navigate to="/" replace />
                   )
                 } 
               />
