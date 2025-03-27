@@ -15,13 +15,17 @@ def create_app():
     if not allowed_origins[0]:  # If ALLOWED_ORIGINS is empty
         allowed_origins = ['http://localhost:3000']  # Default to localhost
     
+    print('Allowed origins:', allowed_origins)  # Debug log
+    
     # Configure CORS with specific origins and methods
     CORS(app, resources={
         r"/api/*": {
             "origins": allowed_origins,
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
             "allow_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": True
+            "expose_headers": ["Content-Type", "Authorization"],
+            "supports_credentials": True,
+            "send_wildcard": False
         }
     })
     
@@ -53,7 +57,8 @@ def create_app():
                 'status': 'healthy',
                 'database': 'connected',
                 'timestamp': datetime.utcnow().isoformat(),
-                'allowed_origins': allowed_origins
+                'allowed_origins': allowed_origins,  # Include in response for debugging
+                'current_config': app.config.get('CORS_ORIGINS', [])
             }), 200
         except Exception as e:
             return jsonify({
