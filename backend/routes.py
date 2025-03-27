@@ -86,28 +86,6 @@ def check_and_award_badges(user):
     user.badges = json.dumps(current_badges)
     return new_badges
 
-@api.route('/user', methods=['POST'])
-def create_user():
-    data = request.get_json()
-    username = data.get('username')
-    
-    if not username:
-        return jsonify({'error': 'Username is required'}), 400
-    
-    if User.query.filter_by(username=username).first():
-        return jsonify({'error': 'Username already exists'}), 400
-    
-    user = User(username=username)
-    db.session.add(user)
-    db.session.commit()
-    
-    return jsonify({
-        'id': user.id,
-        'username': user.username,
-        'current_streak': user.current_streak,
-        'badges': json.loads(user.badges)
-    }), 201
-
 @api.route('/win', methods=['POST'])
 def log_win():
     data = request.get_json()
