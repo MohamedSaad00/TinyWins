@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from database import init_db, db
 from routes import api
@@ -15,19 +15,20 @@ def create_app():
     if not allowed_origins[0]:  # If ALLOWED_ORIGINS is empty
         allowed_origins = ['http://localhost:3000']  # Default to localhost
     
-    print('Allowed origins:', allowed_origins)  # Debug log
+    # Add debug logging for CORS
+    @app.before_request
+    def log_request_info():
+        print('Request Headers:', dict(request.headers))
+        print('Request Origin:', request.headers.get('Origin'))
+        print('Allowed Origins:', allowed_origins)
     
-    # Configure CORS with specific origins and methods
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": allowed_origins,
-            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"],
-            "expose_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": True,
-            "send_wildcard": False
-        }
-    })
+    # Configure CORS - more permissive configuration
+    CORS(app, 
+         resources={r"/api/*": {"origins": "*"}},
+         supports_credentials=True,
+         allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
+         expose_headers=["Content-Type", "Authorization"],
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
     
     # Set secret key
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
@@ -57,8 +58,9 @@ def create_app():
                 'status': 'healthy',
                 'database': 'connected',
                 'timestamp': datetime.utcnow().isoformat(),
-                'allowed_origins': allowed_origins,  # Include in response for debugging
-                'current_config': app.config.get('CORS_ORIGINS', [])
+                'allowed_origins': allowed_origins,
+                'request_origin': request.headers.get('Origin'),
+                'cors_enabled': True
             }), 200
         except Exception as e:
             return jsonify({

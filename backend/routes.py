@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, make_response
 from datetime import datetime, timedelta
 import json
 from models import db, User, Streak
@@ -17,8 +17,15 @@ def generate_token(user_id):
     )
     return token
 
-@api.route('/auth/register', methods=['POST'])
+@api.route('/auth/register', methods=['POST', 'OPTIONS'])
 def register():
+    if request.method == 'OPTIONS':
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'POST,OPTIONS')
+        return response
+
     try:
         data = request.get_json()
         username = data.get('username')
@@ -38,13 +45,17 @@ def register():
         
         token = generate_token(user.id)
         
-        return jsonify({
+        response = jsonify({
             'user': {
                 'id': user.id,
                 'username': user.username
             },
             'token': token
-        }), 201
+        })
+        
+        # Add CORS headers to the response
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response, 201
         
     except Exception as e:
         db.session.rollback()
