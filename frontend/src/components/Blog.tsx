@@ -10,7 +10,8 @@ import {
   ListItemIcon, 
   ListItemText,
   Divider,
-  useTheme
+  useTheme,
+  Button
 } from '@mui/material';
 import { 
   EmojiEvents, 
@@ -22,7 +23,10 @@ import {
   Code, 
   Lightbulb, 
   DarkMode, 
-  Share 
+  Share,
+  GitHub,
+  Language,
+  LinkedIn
 } from '@mui/icons-material';
 
 const Blog: React.FC = () => {
@@ -164,6 +168,63 @@ const Blog: React.FC = () => {
         <Typography variant="h5">
           👉 Check out TinyWins now and start tracking your wins today!
         </Typography>
+      </Paper>
+
+      {/* Links Section */}
+      <Paper elevation={3} sx={{ p: 4, mt: 6 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          Connect With Us
+        </Typography>
+        <Grid container spacing={3} justifyContent="center">
+          <Grid item xs={12} sm={6} md={3}>
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<GitHub />}
+              href="https://github.com/MohamedSaad00/TinyWins"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub Project
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<Language />}
+              href="https://tinywins-production.up.railway.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Deployed Project
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<Language />}
+              href="https://tinywins-production.up.railway.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Landing Page
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<LinkedIn />}
+              href="https://www.linkedin.com/in/mohamedsaadx/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn Profile
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
     </Container>
   );

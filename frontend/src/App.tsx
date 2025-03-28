@@ -204,7 +204,42 @@ const App: React.FC = () => {
         <div style={{ minHeight: '100vh', backgroundColor: theme.palette.background.default }}>
           <AppBar position="static">
             <Toolbar>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  {isAuthenticated ? (
+                    <>
+                      <Button color="inherit" component={Link} to="/">
+                        Home
+                      </Button>
+                      <Button color="inherit" component={Link} to="/history">
+                        History
+                      </Button>
+                      <Button color="inherit" component={Link} to="/leaderboard">
+                        Leaderboard
+                      </Button>
+                      <Button color="inherit" onClick={logout}>
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <Button color="inherit" onClick={() => setAuthDialogOpen(true)}>
+                      Login / Register
+                    </Button>
+                  )}
+                </Box>
+                
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Button component={Link} to="/about" color="inherit">
+                    About
+                  </Button>
+                  <Button component={Link} to="/blog" color="inherit">
+                    Blog
+                  </Button>
+                  <IconButton color="inherit" onClick={toggleTheme}>
+                    {darkMode ? <Brightness7 /> : <Brightness4 />}
+                  </IconButton>
+                </Box>
+
                 <IconButton
                   component={Link}
                   to="/"
@@ -224,40 +259,6 @@ const App: React.FC = () => {
                     TinyWins
                   </Typography>
                 </IconButton>
-                <Button component={Link} to="/about" color="inherit">
-                  About
-                </Button>
-                <Button component={Link} to="/blog" color="inherit">
-                  Blog
-                </Button>
-                {isAuthenticated ? (
-                  <>
-                    <Typography variant="body1" style={{ marginRight: '1rem' }}>
-                      Welcome, {username}!
-                    </Typography>
-                    <Button color="inherit" component={Link} to="/">
-                      Home
-                    </Button>
-                    <Button color="inherit" component={Link} to="/history">
-                      History
-                    </Button>
-                    <Button color="inherit" component={Link} to="/leaderboard">
-                      Leaderboard
-                    </Button>
-                    <Button color="inherit" component={Link} to="/about">
-                      About
-                    </Button>
-                    <Button color="inherit" onClick={logout}>
-                      Logout
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button color="inherit" onClick={() => setAuthDialogOpen(true)}>
-                      Login / Register
-                    </Button>
-                  </>
-                )}
               </Box>
             </Toolbar>
           </AppBar>
